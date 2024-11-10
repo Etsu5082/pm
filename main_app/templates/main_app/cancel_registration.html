@@ -1,0 +1,21 @@
+<!-- main_app/templates/main_app/cancel_registration.html -->
+
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block title %}参加登録のキャンセル{% endblock %}
+
+{% block content %}
+<h2>参加登録のキャンセル</h2>
+<p>本当にこの練習への参加登録をキャンセルしますか？</p>
+<ul>
+    <li>練習日: {{ registration.practice.date|date:"Y-m-d H:i" }}</li>
+    <li>場所: {{ registration.practice.location }}</li>
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">キャンセルする</button>
+    <a href="{% url 'main_app:practice_list' %}">キャンセルせずに戻る</a>
+</form>
+{% endblock %}

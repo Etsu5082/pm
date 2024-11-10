@@ -1,0 +1,8 @@
+{% extends 'main_app/base.html' %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block content %}
+<h1>練習管理システムへようこそ</h1>
+<a href="{% url 'main_app:practice_list' %}">練習日一覧</a>
+{% endblock %}

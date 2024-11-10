@@ -1,0 +1,46 @@
+<!-- main_app/templates/main_app/practice_list.html -->
+
+{% extends 'main_app/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block title %}練習日一覧{% endblock %}
+
+{% block content %}
+<h2>練習日一覧</h2>
+<ul>
+    {% for practice in practices %}
+        <li style="margin-bottom: 20px;">
+            <!-- 練習日と場所の表示 -->
+            <strong>{{ practice.date|date:"Y-m-d H:i" }}</strong> - {{ practice.location }}
+            <br>
+            <!-- 定員と現在の参加人数の表示 -->
+            定員: {{ practice.max_participants }} 人 | 現在の参加人数: {{ practice.current_participants }} 人
+            <br>
+            <!-- 参加状況の視覚的表示 -->
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill {% if practice.current_participants >= practice.max_participants %}progress-bar-full{% endif %}" style="width: {{ practice.current_participants|percentage:practice.max_participants|floatformat:2 }}%;"></div>
+            </div>
+            <br>
+            <!-- 参加登録またはキャンセルのリンク表示 -->
+            {% if user.is_authenticated %}
+                {% if practice.is_registered %}
+                    <span>参加済み</span>
+                    <!-- 参加キャンセルのリンク -->
+                    <a href="{% url 'main_app:cancel_registration' practice.registration_id %}">参加キャンセル</a>
+                {% elif practice.current_participants >= practice.max_participants %}
+                    <span>定員に達しています</span>
+                {% else %}
+                    <!-- 参加登録のリンク -->
+                    <a href="{% url 'main_app:register_practice' practice.pk %}">参加登録</a>
+                {% endif %}
+            {% else %}
+                <!-- ログインして参加登録するためのリンク -->
+                <a href="{% url 'login' %}?next={{ request.path }}">ログインして参加登録</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>現在、利用可能な練習はありません。</li>
+    {% endfor %}
+</ul>
+{% endblock %}
