@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+*8w9!3%jjq2b6@42v8*mil3jv13c^lp+*!e&o$v6i09-zny&3'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['laissezfairetc.pythonanywhere.com']
 
 
 # Application definition
@@ -106,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja-jp'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'staticfiles'),
     #'/Users/kohetsuwatanabe/Library/CloudStorage/OneDrive-個人用/レッセ/pm/static',  # 不要な場合はコメントアウト
 ]
 # Default primary key field type
@@ -142,6 +142,6 @@ LOGOUT_REDIRECT_URL = 'main_app:home'
 # practice_management/settings.py
 
 # CSRF関連設定
-CSRF_COOKIE_SECURE = False  # HTTPSを使用していない場合はFalse
+CSRF_COOKIE_SECURE = True  # HTTPSを使用していない場合はFalse
 CSRF_COOKIE_HTTPONLY = False  # JavaScriptからアクセス可能にするか
 CSRF_TRUSTED_ORIGINS = []  # 必要に応じて信頼するオリジンを追加
